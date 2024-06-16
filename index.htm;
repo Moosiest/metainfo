@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXIF Metadata Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #fileInput {
+            margin-bottom: 10px;
+        }
+        #metadata {
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-width: 600px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>EXIF Metadata Extractor</h1>
+    <input type="file" id="fileInput" accept="image/*">
+    <div id="metadata"></div>
+
+    <script>
+        // Function to extract and display EXIF metadata
+        function extractMetadata(file) {
+            EXIF.getData(file, function() {
+                var metadata = EXIF.getAllTags(this);
+                var metadataText = JSON.stringify(metadata, null, 2);
+                document.getElementById('metadata').textContent = metadataText;
+            });
+        }
+
+        // Event listener for file input change
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            if (file) {
+                extractMetadata(file);
+            } else {
+                alert('No file selected.');
+            }
+        });
+    </script>
+
+    <!-- Include the exif.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
+</body>
+</html>
